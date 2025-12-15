@@ -2,9 +2,8 @@ from clerk_backend_api import Clerk
 from clerk_backend_api.security import authenticate_request
 from clerk_backend_api.security.types import AuthenticateRequestOptions
 from fastapi import Request
-from ..dependencies import get_settings
+from core.config import settings
 
-settings = get_settings()
 
 clerk_sdk = Clerk(
     AuthenticateRequestOptions(
@@ -12,6 +11,7 @@ clerk_sdk = Clerk(
     ),
     bearer_auth=settings.CLERK_SECRET_KEY,
 )
+
 
 def is_signed_in(request: Request):
     request_state = clerk_sdk.authenticate_request(request)
