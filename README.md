@@ -1,1 +1,0 @@
-# tratech-backend
