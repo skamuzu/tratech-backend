@@ -6,10 +6,5 @@ class UserRole(str, Enum):
     ADMIN = "Admin"
     STUDENT = "Student"
     
-class UserCreate(BaseModel):
-    id: str
-    name: str
-    email: EmailStr
-    role: Optional[UserRole]
-    
+
   
