@@ -9,6 +9,7 @@ dependencies = [
     "clerk-backend-api>=4.2.0",
     "fastapi[standard]>=0.124.4",
     "pydantic-settings>=2.12.0",
+    "python-slugify>=8.0.4",
     "pytz>=2025.2",
     "sqlalchemy>=2.0.45",
     "svix>=1.83.0",

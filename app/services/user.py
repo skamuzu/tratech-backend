@@ -24,6 +24,7 @@ class UserService:
             email=email,
             name=f"{clerk_user.get("first_name")} {clerk_user.get("last_name")}",
             role=UserRole.STUDENT,
+            image_url=clerk_user.get("image_url")
         )
 
         self.db.add(user)

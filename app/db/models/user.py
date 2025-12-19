@@ -1,6 +1,6 @@
 from app.db.database import Base
 from datetime import datetime
-from sqlalchemy import VARCHAR, Enum as SQLEnum, Column, DATETIME
+from sqlalchemy import String, Enum as SQLEnum, Column, DateTime
 from app.schemas.user import UserRole
 from pytz import timezone
 
@@ -8,9 +8,9 @@ from pytz import timezone
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(VARCHAR(20), primary_key=True)
-    name = Column(VARCHAR(50))
-    email = Column(VARCHAR(20), unique=True)
+    id = Column(String, primary_key=True)
+    name = Column(String)
+    email = Column(String, unique=True)
     role = Column(SQLEnum(UserRole),default=UserRole.STUDENT)
-    joined_at = Column(DATETIME, default=lambda: datetime.now(tz=timezone("Africa/Accra"))) 
-
+    joined_at = Column(DateTime, default=lambda: datetime.now(tz=timezone("Africa/Accra"))) 
+    image_url = Column(String, nullable=True)
