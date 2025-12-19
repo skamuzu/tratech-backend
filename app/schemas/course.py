@@ -1,32 +1,43 @@
-# class Course(Base):
-
-#     __tablename__ = "courses"
-
-#     id = Column(Uuid, primary_key=True, default=lambda: uuid4())
-#     title = Column(String, nullable=False)
-#     subtitle = Column(String)
-#     slug = Column(String, nullable=False, unique=True)
-#     status = Column(SQLEnum(Status), default=Status.DRAFT)
-#     total_lessons = Column(Integer)
-#     created_at = Column(
-#         DateTime, default=lambda: datetime.now(tz=timezone("Africa/Accra"))
-#     )
-#     image = Column(String)
-    
-#     module = relationship("Module", back_populates="course")
-
 from pydantic import BaseModel
 from typing import Optional
 from enum import Enum
-
+from uuid import UUID
 
 
 class Status(str, Enum):
-    DRAFT = "Draft"
-    PUBLISHED = "Published"
+    DRAFT = "draft"
+    PUBLISHED = "published"
 
-class CourseCreate(BaseModel):
-    title : str
-    subtitle : Optional[str]
-    status: Optional[Status]
+
+class CourseBase(BaseModel):
+    title: str
+    subtitle: Optional[str] = None
+    image: Optional[str] = None
+    status: Status = Status.DRAFT
+    total_lessons: Optional[int] = 0
+    
+
+
+class CourseCreate(CourseBase):
+    pass
+
+
+class CourseUpdate(BaseModel):
+    title: Optional[str] = None
+    subtitle: Optional[str] = None
+    image: Optional[str] = None
+    status: Optional[Status] = None
+    
+
+
+class CourseRead(CourseBase):
+    id: UUID
+    title: str
+    subtitle: Optional[str]
     image: Optional[str]
+    status: Status
+    slug: str
+    total_lessons: int = 0
+
+    class Config:
+        from_attributes = True

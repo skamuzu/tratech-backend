@@ -15,11 +15,15 @@ class Course(Base):
     title = Column(String, nullable=False)
     subtitle = Column(String)
     slug = Column(String, nullable=False, unique=True)
-    status = Column(SQLEnum(Status), default=Status.DRAFT)
+    status = Column(SQLEnum(Status, name="course_status"), default=Status.DRAFT)
     total_lessons = Column(Integer)
     created_at = Column(
         DateTime, default=lambda: datetime.now(tz=timezone("Africa/Accra"))
     )
     image = Column(String)
 
-    module = relationship("Module", back_populates="course")
+    modules = relationship(
+        "Module",
+        back_populates="course",
+        cascade="all, delete-orphan",
+    )

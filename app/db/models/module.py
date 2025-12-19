@@ -15,4 +15,4 @@ class Module(Base):
         Uuid, ForeignKey("courses.id", ondelete="CASCADE"), nullable=False
     )
 
-    course = relationship("Course", back_populates="course")
+    course = relationship("Course", back_populates="modules")
