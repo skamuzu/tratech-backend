@@ -16,4 +16,4 @@ class Module(Base):
     )
 
     course = relationship("Course", back_populates="modules")
-    lessons = relationship("Lesson", back_populates="modules", cascade="all, delete-orphan")
+    lessons = relationship("Lesson", back_populates="module", cascade="all, delete-orphan")
