@@ -22,7 +22,7 @@ app.add_middleware(
 app.include_router(users.router)
 app.include_router(courses.router)
 
-@app.get("/health", include_in_schema=False)
+@app.api_route("/health", include_in_schema=False, methods=["GET","HEAD"])
 def health_check():
     return {"status": "ok"}
 
