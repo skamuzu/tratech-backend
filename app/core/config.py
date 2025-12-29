@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     CLERK_FRONTEND_API_URL: str
     DATABASE_URL: str
     CLERK_WEBHOOK_SECRET: str
+    REDIS_URL: str
 
 
 @lru_cache

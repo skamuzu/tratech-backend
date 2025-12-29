@@ -1,14 +1,11 @@
 from fastapi import FastAPI
-from app.api import users, courses
+from app.api import users, courses, modules, lessons
 from app.core.config import settings
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:3000",
-    settings.CLERK_FRONTEND_API_URL
-]
+origins = ["http://localhost:3000", settings.CLERK_FRONTEND_API_URL]
 
 
 app.add_middleware(
@@ -21,8 +18,10 @@ app.add_middleware(
 
 app.include_router(users.router)
 app.include_router(courses.router)
+app.include_router(modules.router)
+app.include_router(lessons.router)
 
-@app.api_route("/health", include_in_schema=False, methods=["GET","HEAD"])
+
+@app.api_route("/health", include_in_schema=False, methods=["GET", "HEAD"])
 def health_check():
     return {"status": "ok"}
-

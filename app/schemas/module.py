@@ -1,22 +1,26 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 from uuid import UUID
 
+
 class ModuleBase(BaseModel):
-    title : str
+    title: str
     module_number: int
 
+
 class ModuleCreate(ModuleBase):
-    ...
+    course_id: UUID
 
 
 class ModuleUpdate(BaseModel):
     title: Optional[str] = None
-    module_number: Optional[str] = None
+    module_number: Optional[int] = None
 
 
-class ModuleRead(BaseModel):
+class ModuleRead(ModuleBase):
     id: UUID
-    title: str
-    module_number: int = 1
     course_id: UUID
+    total_lessons: int = 0
+
+    class Config:
+        from_attributes = True

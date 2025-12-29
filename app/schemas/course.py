@@ -14,7 +14,7 @@ class CourseBase(BaseModel):
     subtitle: Optional[str] = None
     image: Optional[str] = None
     status: Status = Status.DRAFT
-    total_lessons: Optional[int] = 0
+  
     
 
 
@@ -38,6 +38,7 @@ class CourseRead(CourseBase):
     status: Status
     slug: str
     total_lessons: int = 0
+    total_modules: int = 0
 
     class Config:
         from_attributes = True

@@ -34,6 +34,13 @@ class Course(Base):
         .where(text("modules.course_id = courses.id"))
         .scalar_subquery()
     )
+    
+    total_modules = column_property(
+        select(func.count())
+        .select_from(text("modules"))
+        .where(text("modules.course_id = courses.id"))
+        .scalar_subquery()
+    )
 
     created_at = Column(
         DateTime, default=lambda: datetime.now(tz=timezone("Africa/Accra"))

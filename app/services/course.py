@@ -22,8 +22,7 @@ class CourseService:
             subtitle=data.subtitle,
             image=data.image,
             status=data.status,
-            slug=slug,
-            total_lessons=data.total_lessons,
+            slug=slug
         )
 
         self.db.add(course)
@@ -77,3 +76,7 @@ class CourseService:
     def get_all_courses(self) -> List[Course]:
         courses = self.db.query(Course).all()
         return courses
+
+    def count_courses(self) -> int:
+        count = self.db.query(Course).count()
+        return count
