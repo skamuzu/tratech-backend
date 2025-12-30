@@ -1,8 +1,11 @@
 from sqlalchemy.orm import Session
 from app.schemas.user import UserRole
 from app.db.models.user import User
+from app.core.dependencies import get_db
+from fastapi import Depends
 
-
+def get_user_service(db: Session = Depends(get_db)):
+    return UserService(db)
 class UserService:
     def __init__(self, session: Session):
         self.db = session
@@ -32,3 +35,7 @@ class UserService:
         self.db.refresh(user)
 
         return user
+    
+    def count_users(self) -> int:
+        count = self.db.query(User).count()
+        return count

@@ -2,8 +2,11 @@ from sqlalchemy.orm import Session
 from app.schemas.lesson import LessonCreate, LessonUpdate
 from app.db.models import Lesson
 from typing import List
+from fastapi import Depends
+from app.core.dependencies import get_db
 
-
+def get_lesson_service(db: Session = Depends(get_db)):
+    return LessonService(session=db)
 class LessonService:
     def __init__(self, session: Session):
         self.db = session

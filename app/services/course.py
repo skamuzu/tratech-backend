@@ -3,7 +3,11 @@ from app.schemas.course import CourseCreate, CourseUpdate
 from app.db.models import Course
 from slugify import slugify
 from typing import List
+from fastapi import Depends
+from app.core.dependencies import get_db
 
+def get_course_service(db: Session = Depends(get_db)):
+    return CourseService(session=db)
 class CourseService:
     def __init__(self, session: Session):
         self.db = session

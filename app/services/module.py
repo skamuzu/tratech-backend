@@ -2,8 +2,11 @@ from sqlalchemy.orm import Session
 from app.schemas.module import ModuleCreate, ModuleUpdate
 from app.db.models import Module
 from typing import List
+from fastapi import Depends
+from app.core.dependencies import get_db
 
-
+def get_module_service(db: Session = Depends(get_db)):
+    return ModuleService(session=db)
 class ModuleService:
     def __init__(self, session: Session):
         self.db = session

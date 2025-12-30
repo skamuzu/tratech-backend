@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api import users, courses, modules, lessons
+from app.api import users, courses, modules, lessons, admin
 from app.core.config import settings
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -20,6 +20,7 @@ app.include_router(users.router)
 app.include_router(courses.router)
 app.include_router(modules.router)
 app.include_router(lessons.router)
+app.include_router(admin.router)
 
 
 @app.api_route("/health", include_in_schema=False, methods=["GET", "HEAD"])
