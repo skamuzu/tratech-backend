@@ -1,13 +1,17 @@
 from sqlalchemy.orm import Session
 from app.schemas.course import CourseCreate, CourseUpdate
-from app.db.models import Course
+from app.schemas.module import ModuleRead
+from app.db.models import Course, Module
 from slugify import slugify
 from typing import List
 from fastapi import Depends
 from app.core.dependencies import get_db
 
+
 def get_course_service(db: Session = Depends(get_db)):
     return CourseService(session=db)
+
+
 class CourseService:
     def __init__(self, session: Session):
         self.db = session
@@ -26,7 +30,7 @@ class CourseService:
             subtitle=data.subtitle,
             image=data.image,
             status=data.status,
-            slug=slug
+            slug=slug,
         )
 
         self.db.add(course)
@@ -84,3 +88,11 @@ class CourseService:
     def count_courses(self) -> int:
         count = self.db.query(Course).count()
         return count
+
+    def get_course_modules(self, course_id: str) -> List[Module]:
+        exists = self.db.query(Course.id).filter(Course.id == course_id).first()
+
+        if not exists:
+            raise ValueError("Course not found")
+
+        return self.db.query(Module).filter(Module.course_id == course_id).all()

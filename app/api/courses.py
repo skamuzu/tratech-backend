@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from app.core.dependencies import get_db
 from app.services.course import CourseService
 from app.schemas.course import CourseCreate, CourseRead, CourseUpdate
+from app.schemas.module import ModuleRead
 from typing import List
 from uuid import UUID
 
@@ -45,3 +46,10 @@ def get_course(course_id: UUID, course_service: CourseService = Depends(get_cour
 def delete_course(course_id: UUID, course_service: CourseService = Depends(get_course_service)):
     course = course_service.delete_course(course_id)
     return course
+
+@router.get("/{course_id}/modules", response_model=List[ModuleRead])
+def get_course_modules(
+    course_id: UUID, course_service: CourseService = Depends(get_course_service)
+):
+    modules = course_service.get_course_modules(course_id)
+    return modules

@@ -1,18 +1,18 @@
-"""Deployed migration
+"""Redo
 
-Revision ID: 05334bdba572
+Revision ID: 8971da312157
 Revises: 
-Create Date: 2025-12-25 18:40:20.667939
+Create Date: 2026-01-03 01:31:43.868095
 
 """
 from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
-
+from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision: str = '05334bdba572'
+revision: str = '8971da312157'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -26,7 +26,7 @@ def upgrade() -> None:
     sa.Column('title', sa.String(), nullable=False),
     sa.Column('subtitle', sa.String(), nullable=True),
     sa.Column('slug', sa.String(), nullable=False),
-    sa.Column('status', sa.Enum('DRAFT', 'PUBLISHED', name='course_status'), nullable=True),
+    sa.Column('status', postgresql.ENUM('DRAFT', 'PUBLISHED', name='course_status', create_type=False), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('image', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
@@ -36,7 +36,7 @@ def upgrade() -> None:
     sa.Column('id', sa.String(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
     sa.Column('email', sa.String(), nullable=True),
-    sa.Column('role', sa.Enum('ADMIN', 'STUDENT', name='userrole'), nullable=True),
+    sa.Column('role', postgresql.ENUM('admin', 'student', name='userrole', create_type=False), nullable=True),
     sa.Column('joined_at', sa.TIMESTAMP(), nullable=True),
     sa.Column('image_url', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id'),

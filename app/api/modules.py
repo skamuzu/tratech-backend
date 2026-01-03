@@ -21,15 +21,6 @@ def create_module(
     return module
 
 
-@router.get("/", response_model=List[ModuleRead])
-def get_all_modules(
-    course_id: Optional[UUID] = Query(None),
-    module_service: ModuleService = Depends(get_module_service)
-):
-    modules = module_service.get_all_modules(course_id=course_id)
-    return modules
-
-
 @router.patch("/{module_id}", response_model=ModuleRead)
 def update_module(
     module_id: UUID,

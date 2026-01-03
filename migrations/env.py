@@ -1,8 +1,9 @@
 from logging.config import fileConfig
 from app.db.database import Base
 from sqlalchemy import engine_from_config
+from app.db.models import *
+import alembic_postgresql_enum
 from sqlalchemy import pool
-import app.db.models
 from app.core.config import settings
 from alembic import context
 from dotenv import load_dotenv

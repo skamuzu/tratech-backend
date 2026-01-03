@@ -4,3 +4,4 @@ from app.db.models.module import Module
 from app.db.models.lesson import Lesson
 
 
+__all__ = ['User', "Course", "Module", "Lesson"]
