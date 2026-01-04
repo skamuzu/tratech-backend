@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from app.db.models.user import User
 from app.schemas.user import UserRole
+from app.schemas.invites import InviteItem
 from app.core.dependencies import get_db
 from fastapi import Depends
 from app.core.auth import sdk
@@ -21,7 +22,7 @@ class UserService:
             return user
 
         if len(clerk_user["email_addresses"]) == 0:
-            return
+            return 
 
         user = User(
             id=clerk_user["id"],
@@ -36,10 +37,14 @@ class UserService:
         self.db.refresh(user)
 
         try:
-            sdk.users.update_metadata(
-                user_id=clerk_user["id"],
-                public_metadata={"role": UserRole.STUDENT},
-            )
+            user = sdk.users.get(clerk_user["id"])
+            if user.public_metadata.get("role") == None:
+                sdk.users.update_metadata(
+                    user_id=clerk_user["id"],
+                    public_metadata={"role": UserRole.STUDENT},
+                )
+                
+            
             print(f"✅ Updated metadata for new user {user.id}")
         except Exception as e:
             print(f"❌ Failed to update metadata: {e}")
@@ -49,3 +54,8 @@ class UserService:
     def count_users(self) -> int:
         count = self.db.query(User).count()
         return count
+
+    def clerk_email_invites(self, invitations: list[InviteItem]):
+        request_payload = [invite.model_dump(mode='json') for invite in invitations]
+        res = sdk.invitations.bulk_create(request=request_payload)
+        return res

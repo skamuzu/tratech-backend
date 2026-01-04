@@ -16,3 +16,4 @@ class UserBase(BaseModel):
     role: UserRole 
     image_url: Optional[str] = None
     joined_at: Optional[datetime] = None
+    

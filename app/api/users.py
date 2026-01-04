@@ -3,6 +3,8 @@ from svix.webhooks import Webhook, WebhookVerificationError
 from app.services.user import UserService
 from app.core.config import settings
 from app.core.dependencies import get_db
+from app.schemas.invites import InviteItem
+from typing import List
 
 
 def get_user_service(db=Depends(get_db)) -> UserService:
@@ -30,3 +32,7 @@ async def clerk_webhook(
         user_service.create_user_from_clerk(event["data"])
 
     return {"status": "ok"}
+
+@router.post("/email_invite")
+async def email_invite(data: List[InviteItem], user_service= Depends(get_user_service)):
+    return user_service.clerk_email_invites(data)
