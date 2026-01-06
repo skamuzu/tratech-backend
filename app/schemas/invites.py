@@ -15,4 +15,4 @@ class InviteItem(BaseModel):
     redirect_url: HttpUrl
     expires_in_days: int
     notify: bool = True
-    ignore_existing: bool = False
+    ignore_existing: bool = True

@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Form, File, UploadFile
 from app.core.dependencies import get_db
 from app.services.course import CourseService
 from app.schemas.course import CourseCreate, CourseRead, CourseUpdate
 from app.schemas.module import ModuleRead
 from typing import List
 from uuid import UUID
+from app.utils.image_upload import upload_image
 
 
 def get_course_service(db=Depends(get_db)):
@@ -15,10 +16,26 @@ router = APIRouter(prefix="/courses")
 
 
 @router.post("/", response_model=CourseRead)
-def create_course(
-    course: CourseCreate, course_service: CourseService = Depends(get_course_service)
+async def create_course(
+    title: str = Form(...),
+    subtitle: str | None = Form(None),
+    status: str = Form("draft"),
+    image: UploadFile | None = File(None),
+    course_service: CourseService = Depends(get_course_service),
 ):
-    course = course_service.create_course(data=course)
+    image_url = None
+    
+    if (image):
+        image_url = await upload_image(image=image)
+        
+    course_data = CourseCreate(
+        title=title,
+        subtitle=subtitle,
+        status=status,
+        image=image_url
+    )
+    
+    course = course_service.create_course(data=course_data)
     return course
 
 
@@ -37,15 +54,22 @@ def update_course(
     course = course_service.update_course(course_id, course)
     return course
 
+
 @router.get("/{course_id}", response_model=CourseRead)
-def get_course(course_id: UUID, course_service: CourseService = Depends(get_course_service)):
+def get_course(
+    course_id: UUID, course_service: CourseService = Depends(get_course_service)
+):
     course = course_service.get_course(course_id)
     return course
 
+
 @router.delete("/{course_id}", response_model=CourseRead)
-def delete_course(course_id: UUID, course_service: CourseService = Depends(get_course_service)):
+def delete_course(
+    course_id: UUID, course_service: CourseService = Depends(get_course_service)
+):
     course = course_service.delete_course(course_id)
     return course
+
 
 @router.get("/{course_id}/modules", response_model=List[ModuleRead])
 def get_course_modules(

@@ -16,8 +16,6 @@ class CourseBase(BaseModel):
     status: Status = Status.DRAFT
   
     
-
-
 class CourseCreate(CourseBase):
     pass
 

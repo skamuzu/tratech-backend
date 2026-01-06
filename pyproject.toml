@@ -8,11 +8,22 @@ dependencies = [
     "alembic>=1.17.2",
     "alembic-postgresql-enum>=1.8.0",
     "clerk-backend-api>=4.2.0",
+    "cloudinary>=1.44.1",
     "fastapi[standard]>=0.124.4",
+    "google-genai>=1.56.0",
     "psycopg2-binary>=2.9.11",
     "pydantic-settings>=2.12.0",
+    "python-multipart>=0.0.20",
     "python-slugify>=8.0.4",
     "pytz>=2025.2",
     "sqlalchemy>=2.0.45",
     "svix>=1.83.0",
 ]
+
+[tool.mypy]
+ignore_missing_imports = true
+check_untyped_defs = false
+disallow_untyped_defs = false
+warn_unused_ignores = false
+warn_return_any = false
+no_implicit_optional = false

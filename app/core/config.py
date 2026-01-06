@@ -3,6 +3,7 @@ from functools import lru_cache
 from pathlib import Path
 from dotenv import load_dotenv
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent 
 
 load_dotenv()
@@ -15,6 +16,10 @@ class Settings(BaseSettings):
     CLERK_FRONTEND_API_URL: str
     DATABASE_URL: str
     CLERK_WEBHOOK_SECRET: str
+    CLOUDINARY_CLOUD_NAME: str
+    CLOUDINARY_API_KEY: str
+    CLOUDINARY_SECRET_KEY: str
+
 
 
 @lru_cache
