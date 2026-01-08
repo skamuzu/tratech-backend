@@ -96,3 +96,7 @@ class CourseService:
             raise ValueError("Course not found")
 
         return self.db.query(Module).filter(Module.course_id == course_id).all()
+    
+    def get_number_of_published_courses(self) -> int:
+        count = self.db.query(Course).filter(Course.status == "published").count()
+        return count

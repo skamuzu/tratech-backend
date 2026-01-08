@@ -32,5 +32,6 @@ class DashboardService:
             "number_of_courses": self.course_service.count_courses(),
             "number_of_lessons": self.lesson_service.count_lessons(),
             "courses": self.course_service.get_all_courses(),
+            "number_of_published_courses": self.course_service.get_number_of_published_courses(),
         }
 
