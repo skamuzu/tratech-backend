@@ -13,7 +13,6 @@ class UserBase(BaseModel):
     id: str
     name: str
     email: EmailStr
-    role: UserRole 
     image_url: Optional[str] = None
     joined_at: Optional[datetime] = None
     

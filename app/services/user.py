@@ -39,7 +39,6 @@ class UserService:
             id=clerk_user["id"],
             email=email,
             name=f"{clerk_user.get('first_name')} {clerk_user.get('last_name')}",
-            role=role,
             image_url=clerk_user.get("image_url"),
         )
 

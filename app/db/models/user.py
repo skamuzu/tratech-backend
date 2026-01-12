@@ -2,7 +2,6 @@ from app.db.database import Base
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy import String, Enum as SQLEnum, Column, TIMESTAMP
-from app.schemas.user import UserRole
 from pytz import timezone
 
 
@@ -12,6 +11,5 @@ class User(Base):
     id = Column(String, primary_key=True)
     name = Column(String)
     email = Column(String, unique=True)
-    role = Column(SQLEnum(UserRole, values_callable=lambda x: [e.value for e in x]))
     joined_at = Column(TIMESTAMP, default=lambda: datetime.now(tz=timezone("Africa/Accra"))) 
     image_url = Column(String, nullable=True)
